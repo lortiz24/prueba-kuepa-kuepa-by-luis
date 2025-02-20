@@ -1,5 +1,5 @@
 export default {
-  root: 'prueba-kuepa',
+  root: 'back',
   mode: 'dev',
   customs:{
     url: 'http://localhost:7001',
