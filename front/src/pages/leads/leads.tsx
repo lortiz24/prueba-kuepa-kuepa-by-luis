@@ -11,7 +11,8 @@ export interface LeadsProps {}
 
 export default function Leads(props?: LeadsProps) {
   const [isSaving, setIsSaving] = useState(false);
-  const { isLoading, leads, refreshLeads } = useGetLeads();
+  const { isLoading, leads, refreshLeads, onChangePage, pagination } =
+    useGetLeads();
 
   const createLead = useCallback(
     async (
@@ -62,7 +63,12 @@ export default function Leads(props?: LeadsProps) {
               <LeadForm createLead={createLead} isSaving={isSaving} />
             </div>
             <div className="lg:col-span-2">
-              <LeadTable isLoading={isLoading} leads={leads} />
+              <LeadTable
+                isLoading={isLoading}
+                leads={leads}
+                onChangePage={onChangePage}
+                pagination={pagination}
+              />
             </div>
           </div>
         </div>

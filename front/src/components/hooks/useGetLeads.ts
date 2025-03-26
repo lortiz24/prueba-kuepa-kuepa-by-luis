@@ -16,10 +16,9 @@ export const useGetLeads = () => {
     offset: OFFSET_DEFAULT,
   });
 
-
   const refreshLeads = async () => {
     try {
-      setIsLoading(true)
+      setIsLoading(true);
       const response = await leadService.list(pagination);
       setLeads(response.list);
       setIsLoading(false);
@@ -29,6 +28,12 @@ export const useGetLeads = () => {
     }
   };
 
+  const onChangePage = (page: number) => {
+    setPagination((currengPagination) => ({
+      ...currengPagination,
+      offset: page,
+    }));
+  };
 
   useEffect(() => {
     const fetchLeads = async () => {
@@ -47,6 +52,8 @@ export const useGetLeads = () => {
   return {
     leads,
     isLoading,
-    refreshLeads
+    refreshLeads,
+    onChangePage,
+    pagination
   };
 };

@@ -12,14 +12,22 @@ import type { TInterestProgram, TLead } from "../types/lead.type";
 import { Input, Pagination, Select, Text } from "@mantine/core";
 
 import { Search } from "lucide-react";
+import { TPagination } from "../types/pagination.type";
 
 type Props = {
   isLoading: boolean;
   leads: TLead[];
+  onChangePage: (page: number) => void;
+  pagination?: TPagination;
 };
-const LeadTable: React.FC<Props> = ({ isLoading, leads }) => {
+const LeadTable: React.FC<Props> = ({
+  isLoading,
+  leads,
+  onChangePage,
+  pagination,
+}) => {
   const [globalFilter, setGlobalFilter] = React.useState("");
-  const [pageSize, setPageSize] = React.useState(10);
+  const [pageSize, setPageSize] = React.useState(pagination.limit);
 
   // Definir las columnas de la tabla
   const columns = React.useMemo<ColumnDef<TLead>[]>(
@@ -84,30 +92,6 @@ const LeadTable: React.FC<Props> = ({ isLoading, leads }) => {
   // Renderizar la tabla
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
-      <div className="p-4 border-b border-gray-200">
-        <div className="flex flex-col sm:flex-row justify-end items-start sm:items-center gap-4">
-          <div className="flex items-center space-x-2">
-            <Text size="sm" color="dimmed">
-              Mostrar
-            </Text>
-            <Select
-              value={pageSize.toString()}
-              onChange={(value) => setPageSize(Number(value))}
-              data={[
-                { value: "5", label: "5" },
-                { value: "10", label: "10" },
-                { value: "25", label: "25" },
-                { value: "50", label: "50" },
-              ]}
-              style={{ width: 70 }}
-            />
-            <Text size="sm" color="dimmed">
-              por página
-            </Text>
-          </div>
-        </div>
-      </div>
-
       <div className="overflow-x-auto">
         {isLoading ? (
           <div className="flex justify-center items-center h-64">
@@ -178,22 +162,6 @@ const LeadTable: React.FC<Props> = ({ isLoading, leads }) => {
           )}{" "}
           de {table.getFilteredRowModel().rows.length} resultados
         </div>
-
-        <Pagination
-          total={table.getPageCount()}
-          value={table.getState().pagination.pageIndex + 1}
-          onChange={(page) => table.setPageIndex(page - 1)}
-          size="sm"
-          radius="xs"
-          withEdges
-          /* styles={(theme) => ({
-            item: {
-              "&[data-active]": {
-                backgroundColor: "#6b21a8",
-              },
-            },
-          })} */
-        />
       </div>
     </div>
   );
