@@ -8,6 +8,7 @@ import { LeadController } from "@app/domains/lead/leadController"
 // @import_utilities
 import { RouterUtility, IRouteParams } from "@core/utilities/routerUtility"
 import { request as auth } from "@app/middleware/authMiddleware"
+import { validateLead } from "@app/middlewares/leadValidationMiddleware"
 
 
 class LeadRoute {
@@ -31,7 +32,7 @@ class LeadRoute {
     { method: 'get', path: '/get/:_id', handler: this.controller.get , middleware: [auth] },
     { method: 'get', path: '/', handler: this.controller.list , middleware: [auth] },
     { method: 'post', path: '/test', handler: this.controller.test , middleware: [] },
-    { method: 'post', path: '/upsert', handler: this.controller.upsert , middleware: [auth] },
+    { method: 'post', path: '/upsert', handler: this.controller.upsert , middleware: [auth, validateLead] },
     { method: 'post', path: '/external', handler: this.controller.external , middleware: [] },
     { method: 'post', path: '/adviser-info', handler: this.controller.adviserInfo , middleware: [auth] },
   ] 
