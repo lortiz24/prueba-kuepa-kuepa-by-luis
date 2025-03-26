@@ -20,7 +20,7 @@ export const LeadForm = () => {
         ...newLead,
         full_name: `${newLead.first_name} ${newLead.last_name}`,
       });
-      console.log("response", response);
+      form.reset();
     } catch (error) {
       console.error("Ocurrió un error al crear el lead");
     } finally {
