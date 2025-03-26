@@ -252,6 +252,9 @@ class LeadService {
   public async list (_params) {
     try {
       const where: any = {}
+      const page = parseInt(_params.page) || 1
+      const limit = parseInt(_params.limit) || 10
+      const skip = (page - 1) * limit
       
       let third
       
@@ -259,19 +262,30 @@ class LeadService {
         third = await Third.findOne({user: _params.user}).lean()
         if(third) where.adviser = third._id.toString()
       }
+
+      // Obtener el total de documentos
+      const total = await Lead.countDocuments(where)
       
-      let leads = await Lead.find(where)
+      // Obtener los leads paginados
+      const leads = await Lead.find(where)
         .sort({created_at: -1})
         .populate({
           path: 'interestProgram',
           select: 'name description',
           options: { lean: true }
         })
-        .limit(100)
+        .skip(skip)
+        .limit(limit)
         .lean()
       
       return responseUtility.success({
-        list: leads
+        list: leads,
+        pagination: {
+          total,
+          page,
+          limit,
+          totalPages: Math.ceil(total / limit)
+        }
       })
     } catch (error) {
       console.error('Error in lead list:', error)
