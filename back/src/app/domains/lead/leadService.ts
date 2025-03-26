@@ -252,7 +252,7 @@ class LeadService {
   public async list (_params) {
     try {
       const where: any = {}
-      const page = parseInt(_params.page) || 1
+      const page = parseInt(_params.offset) || 1
       const limit = parseInt(_params.limit) || 10
       const skip = (page - 1) * limit
       

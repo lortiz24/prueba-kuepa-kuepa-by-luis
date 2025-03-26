@@ -4,11 +4,12 @@ import axios, { AxiosError } from "axios"
 import { config } from "../config"
 import { token, user, access } from "../atoms/kuepa"
 import moment from "moment"
+import { TPagination } from "@/components/types/pagination.type"
 const URL = `${config.api}/api`
 
 const app = 'kuepa'
 
-export const get = async(_params:{api:string, options?:any}) =>{
+export const get = async(_params:{api:string, options?:any, pagination?:TPagination}) =>{
   try{
     if(!_params.options){
       _params.options = {}
@@ -32,7 +33,7 @@ export const get = async(_params:{api:string, options?:any}) =>{
         'Authorization': token.get()
       }
     }
-    
+    //?limit=${_params.pagination.limit}&offset=${_params.pagination.offset}
     const response = await axios.get(`${URL}${_params.api}`, _params.options)
     const data = response.data
 
