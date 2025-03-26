@@ -17,7 +17,9 @@ export const leadService = {
       pagination,
     });
   },
-  upsert: async (newLead: TLead) => {
+  upsert: async (
+    newLead: Omit<TLead, "interestProgram"> & { interestProgram: string }
+  ) => {
     return await post({
       api: `${api}/upsert`,
       options: {

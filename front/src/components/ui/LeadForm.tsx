@@ -9,7 +9,11 @@ export const LeadForm = () => {
   const form = useLeadForm();
   const [isSaving, setIsSaving] = useState(false);
 
-  const handleSubmit = async (newLead: TLead) => {
+  const handleSubmit = async (
+    newLead: Omit<TLead, "interestProgram" | "full_name"> & {
+      interestProgram: string;
+    }
+  ) => {
     try {
       setIsSaving(true);
       const response = await leadService.upsert({
