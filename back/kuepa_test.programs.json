@@ -1,0 +1,35 @@
+[{
+  "_id": {
+    "$oid": "67e417552212edc91c45c95c"
+  },
+  "name": "Desarrollo Web Full Stack",
+  "description": "Programa intensivo de desarrollo web con tecnologías modernas."
+},
+{
+  "_id": {
+    "$oid": "67e417552212edc91c45c95d"
+  },
+  "name": "Machine Learning Avanzado",
+  "description": "Aprende técnicas avanzadas de machine learning y deep learning."
+},
+{
+  "_id": {
+    "$oid": "67e417552212edc91c45c95e"
+  },
+  "name": "Gestión de Proyectos Ágiles",
+  "description": "Metodologías ágiles para la gestión eficiente de proyectos."
+},
+{
+  "_id": {
+    "$oid": "67e417552212edc91c45c95f"
+  },
+  "name": "Ciberseguridad y Ethical Hacking",
+  "description": "Fundamentos y técnicas avanzadas de ciberseguridad y hacking ético."
+},
+{
+  "_id": {
+    "$oid": "67e417552212edc91c45c960"
+  },
+  "name": "Big Data y Analítica",
+  "description": "Manejo y análisis de grandes volúmenes de datos con herramientas especializadas."
+}]
