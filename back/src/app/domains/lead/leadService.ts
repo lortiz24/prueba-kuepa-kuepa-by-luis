@@ -4,12 +4,13 @@
 
 // @import_models
 import { Lead, Campaign, Third, Adnetwork, Tracking, Message, Interaction } from "@app/models"
+import moment from "moment";
+import { responseUtility } from "@core/utilities/responseUtility"
 
 // @import_utilities
-import { responseUtility } from "@core/utilities/responseUtility"
-import moment from "moment";
-
 // @import_types
+
+
 
 
 class LeadService {
@@ -289,31 +290,34 @@ class LeadService {
 
   
   public async get (_params:{_id:string}) {
-    try{
+    try {
       const lead = await Lead.findOne({_id: _params._id})
-      .populate({
-        path: 'contact',
-        select: 'first_name last_name incremental document number',
-        options: { lean:true }
-      })
-      .lean()
+        .populate({
+          path: 'interestProgram',
+          select: 'name description',
+          options: { lean: true }
+        })
+        .lean()
       
       if(!lead) return responseUtility.error('lead.not_found');
+      
       const interactions = await Interaction.find({'_ref.lead': _params._id})
-      .populate({
-        path: 'messages',
-        select: 'inbound from to content created_at',
-        options: { lean:true }
-      })
-      .sort({crated_at:-1})
-      .lean()
+        .populate({
+          path: 'messages',
+          select: 'inbound from to content created_at',
+          options: { lean: true }
+        })
+        .sort({created_at: -1})
+        .lean()
+        
       return responseUtility.success({
         lead,
         interactions
       })
       
     } catch (error) {
-      console.log('error', error)
+      console.error('Error in lead get:', error)
+      return responseUtility.error('lead.get_error')
     }
   }
 }
