@@ -9,7 +9,6 @@ type Props = {
 
 export const ProgramSelect = ({ value, onChange }: Props) => {
   const { programs } = useGetPrograms();
-
   return (
     <Select
       label="Programa de interés"
@@ -18,7 +17,7 @@ export const ProgramSelect = ({ value, onChange }: Props) => {
         label: program.name,
         value: program._id,
       }))}
-      value={value}
+      value={value.length > 0 ? value : null}
       onChange={onChange}
       className="mb-3"
       required

@@ -16,6 +16,20 @@ export const useGetLeads = () => {
     offset: OFFSET_DEFAULT,
   });
 
+
+  const refreshLeads = async () => {
+    try {
+      setIsLoading(true)
+      const response = await leadService.list(pagination);
+      setLeads(response.list);
+      setIsLoading(false);
+    } catch (error) {
+      setIsLoading(false);
+      setErrorMessage("No se pudo obtener el listado de least");
+    }
+  };
+
+
   useEffect(() => {
     const fetchLeads = async () => {
       try {
@@ -33,5 +47,6 @@ export const useGetLeads = () => {
   return {
     leads,
     isLoading,
+    refreshLeads
   };
 };

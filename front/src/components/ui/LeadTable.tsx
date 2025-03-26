@@ -10,10 +10,14 @@ import {
 import { useGetLeads } from "../hooks/useGetLeads";
 import type { TInterestProgram, TLead } from "../types/lead.type";
 import { Input, Pagination, Select, Text } from "@mantine/core";
+
 import { Search } from "lucide-react";
 
-export const LeadTable: React.FC = () => {
-  const { isLoading, leads } = useGetLeads();
+type Props = {
+  isLoading: boolean;
+  leads: TLead[];
+};
+const LeadTable: React.FC<Props> = ({ isLoading, leads }) => {
   const [globalFilter, setGlobalFilter] = React.useState("");
   const [pageSize, setPageSize] = React.useState(10);
 
@@ -81,15 +85,7 @@ export const LeadTable: React.FC = () => {
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
       <div className="p-4 border-b border-gray-200">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-          <div className="relative w-full sm:w-64">
-            <Input
-              placeholder="Buscar leads..."
-              value={globalFilter}
-              onChange={(e) => setGlobalFilter(e.target.value)}
-              className="w-full"
-            />
-          </div>
+        <div className="flex flex-col sm:flex-row justify-end items-start sm:items-center gap-4">
           <div className="flex items-center space-x-2">
             <Text size="sm" color="dimmed">
               Mostrar
@@ -202,3 +198,5 @@ export const LeadTable: React.FC = () => {
     </div>
   );
 };
+
+export default React.memo(LeadTable);

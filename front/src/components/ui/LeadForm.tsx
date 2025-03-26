@@ -1,13 +1,20 @@
+import { memo } from "react";
 import { Paper, TextInput, Title, Button } from "@mantine/core";
 import { useLeadForm } from "../hooks/useLeadForm";
-import { leadService } from "@/services/leadService";
-import { TLead } from "../types/lead.type";
-import { useState } from "react";
 import { ProgramSelect } from "./ProgramSelect";
+import { TLead } from "../types/lead.type";
 
-export const LeadForm = () => {
+type Props = {
+  isSaving: boolean;
+  createLead: (
+    newLead: Omit<TLead, "interestProgram" | "full_name"> & {
+      interestProgram: string;
+    }
+  ) => Promise<void>;
+};
+
+const LeadTable: React.FC<Props> = memo(({ createLead, isSaving }) => {
   const form = useLeadForm();
-  const [isSaving, setIsSaving] = useState(false);
 
   const handleSubmit = async (
     newLead: Omit<TLead, "interestProgram" | "full_name"> & {
@@ -15,16 +22,10 @@ export const LeadForm = () => {
     }
   ) => {
     try {
-      setIsSaving(true);
-      const response = await leadService.upsert({
-        ...newLead,
-        full_name: `${newLead.first_name} ${newLead.last_name}`,
-      });
+      await createLead(newLead);
       form.reset();
     } catch (error) {
       console.error("Ocurrió un error al crear el lead");
-    } finally {
-      setIsSaving(false);
     }
   };
 
@@ -72,4 +73,6 @@ export const LeadForm = () => {
       </form>
     </Paper>
   );
-};
+});
+
+export default LeadTable;
