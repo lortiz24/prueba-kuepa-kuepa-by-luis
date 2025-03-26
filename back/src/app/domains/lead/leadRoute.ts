@@ -9,6 +9,7 @@ import { LeadController } from "@app/domains/lead/leadController"
 import { RouterUtility, IRouteParams } from "@core/utilities/routerUtility"
 import { request as auth } from "@app/middleware/authMiddleware"
 import { validateLead } from "@app/middlewares/leadValidationMiddleware"
+import { validateObjectId } from "@app/middleware/isValidObjectIdMiddleware"
 
 
 class LeadRoute {
@@ -29,7 +30,7 @@ class LeadRoute {
   
   private routes: Array<IRouteParams> = [
     // @routes
-    { method: 'get', path: '/get/:_id', handler: this.controller.get , middleware: [auth] },
+    { method: 'get', path: '/get/:_id', handler: this.controller.get , middleware: [auth, validateObjectId] },
     { method: 'get', path: '/', handler: this.controller.list , middleware: [auth] },
     { method: 'post', path: '/test', handler: this.controller.test , middleware: [] },
     { method: 'post', path: '/upsert', handler: this.controller.upsert , middleware: [auth, validateLead] },
