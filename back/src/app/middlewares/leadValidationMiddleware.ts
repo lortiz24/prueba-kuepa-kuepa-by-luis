@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { z } from 'zod';
+import { Lead } from '@app/models';
 
 const LeadSchema = z.object({
   _id: z.string().optional(),
@@ -25,7 +26,34 @@ const LeadSchema = z.object({
 
 export const validateLead = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    // Primero validamos la estructura de los datos
     await LeadSchema.parseAsync(req.body);
+
+    // Luego validamos la regla de negocio de email único por programa
+    const { email, interestProgram, _id } = req.body;
+
+    // Construimos la consulta
+    const query: any = {
+      email,
+      interestProgram,
+      deleted: false
+    };
+
+    // Si es una actualización, excluimos el documento actual
+    if (_id) {
+      query._id = { $ne: _id };
+    }
+
+    // Buscamos si existe un lead con el mismo email y programa
+    const existingLead = await Lead.findOne(query).lean();
+
+    if (existingLead) {
+      return res.status(400).json({
+        success: false,
+        message: "Ya existe un registro con este email para el programa seleccionado"
+      });
+    }
+
     next();
   } catch (error) {
     if (error instanceof z.ZodError) {
