@@ -6,7 +6,7 @@ class ProgramService {
   constructor() {}
   public async list() {
     try {
-      const programs = await Program.find().lean();
+      const programs = await Program.find().sort({created_at:-1}).lean();
 
       return responseUtility.success({ list: programs });
     } catch (error) {
