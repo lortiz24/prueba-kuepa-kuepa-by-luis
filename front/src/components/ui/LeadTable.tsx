@@ -27,7 +27,6 @@ const LeadTable: React.FC<Props> = ({
   pagination,
 }) => {
   const [globalFilter, setGlobalFilter] = React.useState("");
-  const [pageSize, setPageSize] = React.useState(pagination.limit);
 
   // Definir las columnas de la tabla
   const columns = React.useMemo<ColumnDef<TLead>[]>(
@@ -84,10 +83,6 @@ const LeadTable: React.FC<Props> = ({
     getPaginationRowModel: getPaginationRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
   });
-
-  React.useEffect(() => {
-    table.setPageSize(pageSize);
-  }, [pageSize, table]);
 
   // Renderizar la tabla
   return (
@@ -147,8 +142,6 @@ const LeadTable: React.FC<Props> = ({
           </table>
         )}
       </div>
-
-     
     </div>
   );
 };
