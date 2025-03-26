@@ -8,8 +8,8 @@ import { LeadController } from "@app/domains/lead/leadController"
 // @import_utilities
 import { RouterUtility, IRouteParams } from "@core/utilities/routerUtility"
 import { request as auth } from "@app/middleware/authMiddleware"
-import { validateLead } from "@app/middlewares/leadValidationMiddleware"
 import { validateObjectId } from "@app/middleware/isValidObjectIdMiddleware"
+import { validateLead } from "@app/middleware/leadValidationMiddleware"
 
 
 class LeadRoute {
