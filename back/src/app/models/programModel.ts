@@ -4,6 +4,16 @@ import mongoose from 'mongoose'
 
 const { Schema } = mongoose 
 
+export interface IProgram {
+  name: string;
+  description: string;
+  created_at?: Date;
+  updated_at?: Date;
+  deleted?: boolean;
+  deletedAt?: Date | null;
+}
+
+
 const ProgramSchema = new Schema({
   name:{
     type: Schema.Types.String,
@@ -22,4 +32,4 @@ ProgramSchema.plugin(mongoose_delete, {
 }) 
 
 
-export const ProgramModel = mongoose.model<any, any>('Program', ProgramSchema) 
+export const ProgramModel = mongoose.model<IProgram>('Program', ProgramSchema);

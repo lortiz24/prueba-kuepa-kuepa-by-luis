@@ -1,0 +1,55 @@
+// @import_dependencies
+import { Application } from "express";
+
+// @import_controllers
+
+// @import_utilities
+import { RouterUtility, IRouteParams } from "@core/utilities/routerUtility";
+import { request as auth } from "@app/middleware/authMiddleware";
+import { ProgramController } from "./programController";
+import { validateObjectId } from "@app/middleware/isValidObjectIdMiddleware";
+
+class ProgramRoute {
+  private className: string = "ProgramRoute";
+  private app: Application;
+  private routerUtility: RouterUtility;
+
+  // @declare_controller
+  private controller: ProgramController = new ProgramController();
+
+  constructor(app: Application, prefix: string) {
+    this.app = app;
+    this.routerUtility = new RouterUtility(this.app, `${prefix}${this.prefix}`);
+  }
+
+  private prefix: string = "/program";
+
+  private routes: Array<IRouteParams> = [
+    // @routes
+    {
+      method: "get",
+      path: "/get/:_id",
+      handler: this.controller.get,
+      middleware: [auth, validateObjectId],
+    },
+    {
+      method: "get",
+      path: "/",
+      handler: this.controller.list,
+      middleware: [auth],
+    },
+  ];
+
+  public init() {
+    for (const path of this.routes) {
+      this.routerUtility.route({
+        method: path.method,
+        path: path.path,
+        handler: path.handler,
+        middleware: path.middleware,
+      });
+    }
+  }
+}
+
+export { ProgramRoute };
