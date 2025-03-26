@@ -2,9 +2,6 @@
 
 ## Backend
 
-### Creación Manual de Terceros (Thirds)
-
-- Se implementó la funcionalidad para crear manualmente un tercero asociado a un usuario.
 
 ### Gestión de Programas
 
