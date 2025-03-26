@@ -19,17 +19,16 @@ class LeadService {
   
   public async upsert (_params) {
     try{ 
-      if(_params.user){
-        const third = await Third.findOne({user: _params.user}).lean()
+     /*  if(_params.user_logged){
+        const third = await Third.findOne({user: _params.user_logged}).lean()
         if(!third) return responseUtility.error('third.not_found1');
         _params.adviser = third._id
       }
-      
       if(_params.third){
         const third = await Third.findOne({_id: _params.third}).lean()
         if(!third) return responseUtility.error('third.not_found2');
         _params.adviser = third._id
-      }
+      } */
       
       let last_tracking = _params?.trackings?.[_params?.trackings?.length - 1]
       if(last_tracking?.new){
@@ -250,37 +249,32 @@ class LeadService {
   }
   
   public async list (_params) {
-    try{
-      const where:any = {}
+    try {
+      const where: any = {}
       
       let third
       
-      if(_params.user){
+      if(_params.user) {
         third = await Third.findOne({user: _params.user}).lean()
         if(third) where.adviser = third._id.toString()
       }
       
-      
       let leads = await Lead.find(where)
-      .sort({created_at:-1})
-      .populate({
-        path: 'contact',
-        select: 'first_name last_name document number',
-        options: { lean:true }
-      })
-      .limit(100)
-      .lean()
-      
-      leads = leads.map(_l=>{
-        _l.full_name = `${_l.contact?.first_name} ${_l.contact?.last_name}`.trim()
-        return _l
-      })
+        .sort({created_at: -1})
+        .populate({
+          path: 'interestProgram',
+          select: 'name description',
+          options: { lean: true }
+        })
+        .limit(100)
+        .lean()
       
       return responseUtility.success({
-        list:leads
+        list: leads
       })
     } catch (error) {
-      console.log('error', error)
+      console.error('Error in lead list:', error)
+      return responseUtility.error('lead.list_error')
     }
   }
   

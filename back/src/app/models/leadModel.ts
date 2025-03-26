@@ -5,19 +5,34 @@ import mongoose from 'mongoose'
 const { Schema } = mongoose 
 
 export interface ILead {
-  incremental: number;
-  number: string;
+  incremental: number; 
+  full_name: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  mobile_phone?: string;
+  interestProgram?: mongoose.Types.ObjectId;
+  status: 'active' | 'inactive';
+  trackings?: {
+    tracking: mongoose.Types.ObjectId;
+    description?: string;
+  }[];
+  created_at?: Date;
+  updated_at?: Date;
+  deleted?: boolean;
+  deletedAt?: Date | null;
 }
+
 
 const LeadSchema = new Schema({
   incremental:{
     //numero unico de 4 digitos 
     type: Schema.Types.Number,
   },
-  full_name: {type: Schema.Types.String},
-  first_name: {type: Schema.Types.String},
-  last_name: {type: Schema.Types.String},
-  email: {type: Schema.Types.String},
+  full_name: { type: Schema.Types.String, required: true },
+  first_name: { type: Schema.Types.String, required: true },
+  last_name: { type: Schema.Types.String, required: true },
+  email: { type: Schema.Types.String, required: true },
   mobile_phone: {type: Schema.Types.String},
   interestProgram: {type: Schema.Types.ObjectId, ref: 'Program'},
   status:{
