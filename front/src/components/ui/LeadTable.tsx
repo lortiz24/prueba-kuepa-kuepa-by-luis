@@ -148,21 +148,7 @@ const LeadTable: React.FC<Props> = ({
         )}
       </div>
 
-      <div className="px-4 py-3 border-t border-gray-200 bg-gray-50 flex flex-col sm:flex-row justify-between items-center gap-4">
-        <div className="text-sm text-gray-700">
-          Mostrando{" "}
-          {table.getState().pagination.pageIndex *
-            table.getState().pagination.pageSize +
-            1}{" "}
-          a{" "}
-          {Math.min(
-            (table.getState().pagination.pageIndex + 1) *
-              table.getState().pagination.pageSize,
-            table.getFilteredRowModel().rows.length
-          )}{" "}
-          de {table.getFilteredRowModel().rows.length} resultados
-        </div>
-      </div>
+     
     </div>
   );
 };
